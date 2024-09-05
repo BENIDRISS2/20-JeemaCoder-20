@@ -7,9 +7,8 @@ class Jeemacoder extends React.Component {
             nomInput: "",
             emailinput: "",
             telephoneInput: "",
-            coders:[
-
-            ]
+            coders:[],
+            ModiferIndex : null,
         };
         this.handleClick = this.handleClick.bind(this)
     }
@@ -31,6 +30,14 @@ class Jeemacoder extends React.Component {
             telephoneInput: "",
     })
     }
+    handleEdit(index) {
+        const coder = this.state.coders[index]
+        this.setState({
+          prenomInput: coder.prenom,
+          nomInput: coder.nom,
+          emailInput: coder.email,
+          telephoneInput: coder.telephone,
+          })}
     
     render() {
         return (
@@ -103,23 +110,29 @@ class Jeemacoder extends React.Component {
             </div>
             <div className="mt-5">
                 <h3 className="text-center">Coders</h3>
-                <table class="table">
+                <table className="table">
   <thead>
     <tr>
       <th scope="col">Prenom</th>
       <th scope="col">Nom</th>
       <th scope="col">Email</th>
       <th scope="col">Telephone</th>
+      <th scope="col">Actions</th>
     </tr>
   </thead>
   <tbody>
   {
-    this.state.coders.map((coders)=>{
+    this.state.coders.map((coders ,index)=>{
         return     <tr>
       <td>{coders.prenom}</td>
       <td>{coders.nom}</td>
       <td>{coders.email}</td>
       <td>{coders.telephone}</td>
+      <td><button className= " btn btn-warning" 
+                      onClick={ () => this.handleEdit(index )}
+                      >
+                      Modifier
+                      </button></td>
     </tr>
     })
   }
@@ -134,4 +147,4 @@ class Jeemacoder extends React.Component {
 }
 
 const not=ReactDOM.createRoot(document.getElementById("not"));
-not.render(<Jeemacoder/>,document.getElementById('not'))
+not.render(<Jeemacoder/>)
