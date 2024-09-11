@@ -8,9 +8,11 @@ class Jeemacoder extends React.Component {
             emailinput: "",
             telephoneInput: "",
             coders:[],
+            // je vais devoir acceder aux index
             ModiferIndex : null,
         };
-        this.handleClick = this.handleClick.bind(this)
+        this.handleClick = this.handleClick.bind(this),
+        this.hadlerecupere = this.hadlerecupere.bind(this)
     }
     // function hudlrclique
     handleClick(){
@@ -36,8 +38,33 @@ class Jeemacoder extends React.Component {
         this.setState({
           prenomInput: coder.prenom,
           nomInput: coder.nom,
-          emailInput: coder.email,
+          emailinput: coder.email,
           telephoneInput: coder.telephone,
+          ModiferIndex: index,
+          
+          })}
+
+          hadlerecupere(){
+            // recuperrer les modification 
+            // puis mise a jour 
+            const ajour = {
+                prenom:this.prenomInput,
+                nom: this.state.nomInput,
+               email: this.state.emailinput,
+              telephone: this.state.telephoneInput
+            }
+    //         const updatedCoders = [...this.state.coders];
+    // updatedCoders[this.state.ModiferIndex] = updatedCoder;
+    const mettrejour = [...this.state.coders];
+    mettrejour[this.state.ModiferIndex]=ajour;
+
+    this.setState({
+        coders: mettrejour,
+        prenomInput: "",
+        nomInput: "",
+        emailinput: "",
+        telephoneInput: "",
+        ModiferIndex: null, // Réinitialiser l'index après modification
           })}
 
     
@@ -102,10 +129,15 @@ class Jeemacoder extends React.Component {
                             />
                         </div>
                     </div>
-                    <button 
+                    {/* <button 
                     // pour gerer l'evenement clique
                     onClick={this.handleClick}
-                        className="btn btn-success w-100">submit</button>
+                        className="btn btn-success w-100">submit</button> */}
+                        <button 
+  onClick={this.state.ModiferIndex === null ? this.handleClick : this.hadlerecupere}
+  className="btn btn-success w-100">
+  {this.state.ModiferIndex === null ? "Ajouter" : "Mettre à jour"}submit
+</button>
                 </div>
          
 
@@ -125,16 +157,17 @@ class Jeemacoder extends React.Component {
   <tbody>
   {
     this.state.coders.map((coders,index)=>{
-        return     <tr>
+        return     <tr key={index}>
       <td>{coders.prenom}</td>
       <td>{coders.nom}</td>
       <td>{coders.email}</td>
       <td>{coders.telephone}</td>
+      <td>
       <button className= " btn btn-warning" 
                       onClick={ () => this.handleEdit(index )}
                       >
                       Modifier
-                      </button>
+                      </button></td>
     </tr>
     })
   }
